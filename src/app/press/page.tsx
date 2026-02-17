@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import FadeIn from '../components/FadeIn';
-import { getPressFeatures } from '../../lib/queries';
 
 export const metadata: Metadata = {
   title: 'Press & Media',
@@ -13,19 +12,107 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 60;
+const publications = [
+  {
+    outlet: 'Charlotte Observer',
+    title: 'Top 10 Stylists Changing the Fashion Scene in Charlotte',
+    type: 'Feature Article',
+    year: '2024',
+  },
+  {
+    outlet: 'Charlotte Magazine',
+    title: 'Best of Charlotte: Personal Services',
+    type: 'Award Recognition',
+    year: '2024',
+  },
+  {
+    outlet: 'StyleBlueprint',
+    title: 'How to Refresh Your Wardrobe Without Starting From Scratch',
+    type: 'Expert Interview',
+    year: '2024',
+  },
+  {
+    outlet: 'SouthPark Magazine',
+    title: 'The Art of the Capsule Wardrobe: A Charlotte Stylist\'s Guide',
+    type: 'Feature Profile',
+    year: '2023',
+  },
+  {
+    outlet: 'Charlotte Agenda',
+    title: '15 Charlotte Women Entrepreneurs to Watch',
+    type: 'Feature List',
+    year: '2023',
+  },
+  {
+    outlet: 'Southern Living',
+    title: 'Southern Style: Personal Stylists Reinventing Wardrobes Across the South',
+    type: 'Regional Feature',
+    year: '2023',
+  },
+];
 
-function getYear(dateStr: string) {
-  return new Date(dateStr).getFullYear().toString();
-}
+const tvAppearances = [
+  {
+    show: 'Charlotte Today (WCNC)',
+    topic: 'Spring Wardrobe Essentials Every Woman Needs',
+    type: 'Recurring Style Segment',
+    year: '2024',
+  },
+  {
+    show: 'Good Morning Charlotte (WBTV)',
+    topic: 'Holiday Party Outfit Guide',
+    type: 'Guest Segment',
+    year: '2024',
+  },
+  {
+    show: 'Charlotte Today (WCNC)',
+    topic: 'Closet Detox: How to Edit Your Wardrobe Like a Pro',
+    type: 'Recurring Style Segment',
+    year: '2023',
+  },
+  {
+    show: 'QC Morning (FOX 46)',
+    topic: 'Budget-Friendly Style Tips for the New Year',
+    type: 'Guest Expert',
+    year: '2023',
+  },
+  {
+    show: 'Charlotte Today (WCNC)',
+    topic: 'Building a Travel Capsule Wardrobe',
+    type: 'Recurring Style Segment',
+    year: '2023',
+  },
+];
 
-export default async function Press() {
-  const allFeatures = await getPressFeatures();
+const speaking = [
+  {
+    event: 'Charlotte Women\'s Conference',
+    topic: 'Dress for the Life You Want: The Psychology of Personal Style',
+    year: '2024',
+  },
+  {
+    event: 'Junior League of Charlotte — Annual Luncheon',
+    topic: 'Reinventing Your Wardrobe at Any Age',
+    year: '2024',
+  },
+  {
+    event: 'Lake Norman Chamber of Commerce — Women in Business Series',
+    topic: 'The Power of Personal Branding Through Style',
+    year: '2023',
+  },
+  {
+    event: 'Charlotte Moms Network — Fall Workshop',
+    topic: 'Mom Style: Looking Put-Together in 10 Minutes or Less',
+    year: '2023',
+  },
+  {
+    event: 'CPCC Continuing Education — Style Workshop Series',
+    topic: 'Color Analysis & Body Type Dressing',
+    year: '2022',
+  },
+];
 
-  const publications = allFeatures.filter((f: any) => f.type === 'print');
-  const tvAppearances = allFeatures.filter((f: any) => f.type === 'tv');
-  const speaking = allFeatures.filter((f: any) => f.type === 'speaking');
-
+export default function Press() {
   return (
     <>
       {/* Hero */}
@@ -52,11 +139,11 @@ export default async function Press() {
             <h2 className="font-serif text-3xl md:text-5xl font-semibold text-warm-900 text-center mb-16">Publications</h2>
           </FadeIn>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {publications.map((pub: any, i: number) => (
-              <FadeIn key={pub._id} delay={i * 80}>
+            {publications.map((pub, i) => (
+              <FadeIn key={pub.title} delay={i * 80}>
                 <div className="bg-white p-8 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
-                  <p className="text-accent text-xs font-medium tracking-[0.15em] uppercase mb-2">{pub.subtype} · {pub.date ? getYear(pub.date) : ''}</p>
-                  <h3 className="font-serif text-xl font-semibold text-warm-900 mb-3">{pub.publicationName}</h3>
+                  <p className="text-accent text-xs font-medium tracking-[0.15em] uppercase mb-2">{pub.type} · {pub.year}</p>
+                  <h3 className="font-serif text-xl font-semibold text-warm-900 mb-3">{pub.outlet}</h3>
                   <p className="text-warm-600 text-sm leading-relaxed flex-1">&ldquo;{pub.title}&rdquo;</p>
                 </div>
               </FadeIn>
@@ -73,16 +160,16 @@ export default async function Press() {
             <h2 className="font-serif text-3xl md:text-5xl font-semibold text-warm-900 text-center mb-16">TV & Media Appearances</h2>
           </FadeIn>
           <div className="max-w-4xl mx-auto space-y-6">
-            {tvAppearances.map((appearance: any, i: number) => (
-              <FadeIn key={appearance._id} delay={i * 80}>
+            {tvAppearances.map((appearance, i) => (
+              <FadeIn key={appearance.topic} delay={i * 80}>
                 <div className="bg-white p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                   <div>
-                    <h3 className="font-serif text-xl font-semibold text-warm-900">{appearance.publicationName}</h3>
-                    <p className="text-warm-600 text-sm mt-1">{appearance.topic || appearance.title}</p>
+                    <h3 className="font-serif text-xl font-semibold text-warm-900">{appearance.show}</h3>
+                    <p className="text-warm-600 text-sm mt-1">{appearance.topic}</p>
                   </div>
                   <div className="flex items-center gap-4 shrink-0">
-                    <span className="text-warm-400 text-xs tracking-wider uppercase">{appearance.subtype}</span>
-                    <span className="text-accent font-medium text-sm">{appearance.date ? getYear(appearance.date) : ''}</span>
+                    <span className="text-warm-400 text-xs tracking-wider uppercase">{appearance.type}</span>
+                    <span className="text-accent font-medium text-sm">{appearance.year}</span>
                   </div>
                 </div>
               </FadeIn>
@@ -99,12 +186,12 @@ export default async function Press() {
             <h2 className="font-serif text-3xl md:text-5xl font-semibold text-warm-900 text-center mb-16">Speaking Engagements</h2>
           </FadeIn>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {speaking.map((event: any, i: number) => (
-              <FadeIn key={event._id} delay={i * 80}>
+            {speaking.map((event, i) => (
+              <FadeIn key={event.topic} delay={i * 80}>
                 <div className="bg-white p-8 shadow-sm h-full">
-                  <p className="text-accent text-xs font-medium tracking-[0.15em] uppercase mb-2">{event.date ? getYear(event.date) : ''}</p>
-                  <h3 className="font-serif text-lg font-semibold text-warm-900 mb-3">{event.publicationName}</h3>
-                  <p className="text-warm-600 text-sm leading-relaxed">{event.topic || event.title}</p>
+                  <p className="text-accent text-xs font-medium tracking-[0.15em] uppercase mb-2">{event.year}</p>
+                  <h3 className="font-serif text-lg font-semibold text-warm-900 mb-3">{event.event}</h3>
+                  <p className="text-warm-600 text-sm leading-relaxed">{event.topic}</p>
                 </div>
               </FadeIn>
             ))}
