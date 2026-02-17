@@ -11,14 +11,17 @@
   --color-warm-700: #977669;
   --color-warm-800: #846358;
   --color-warm-900: #43302b;
-  --color-accent: #c97b5a;
-  --color-accent-dark: #a86143;
+  --color-accent: #b8915a;
+  --color-accent-dark: #9a7644;
   --color-sage: #7a8b6f;
   --color-sage-light: #a8b89e;
-  --color-cream: #faf7f2;
+  --color-cream: #faf6f1;
+  --color-taupe: #c4b5a5;
+  --color-gold: #d4a853;
+  --color-gold-light: #f0e4c8;
   --color-charcoal: #2d2926;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-serif: 'Georgia', 'Times New Roman', serif;
+  --font-serif: 'Cormorant Garamond', 'Georgia', serif;
 }
 
 html {
@@ -30,14 +33,15 @@ body {
   background: var(--color-cream);
   color: var(--color-charcoal);
   font-family: var(--font-sans);
+  font-weight: 300;
+  letter-spacing: 0.01em;
 }
 
 ::selection {
-  background: var(--color-warm-200);
+  background: var(--color-gold-light);
   color: var(--color-warm-900);
 }
 
-/* Fade-in animation for mobile menu */
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -47,7 +51,6 @@ body {
   animation: fade-in 0.25s ease-out;
 }
 
-/* Smooth hover lift for cards */
 .hover-lift {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -55,12 +58,10 @@ body {
   transform: translateY(-4px);
 }
 
-/* Button press effect */
 .btn-press:active {
   transform: scale(0.97);
 }
 
-/* Nav link underline animation */
 .nav-link-animated {
   position: relative;
 }
@@ -70,10 +71,18 @@ body {
   left: 0;
   bottom: -2px;
   width: 0;
-  height: 2px;
+  height: 1px;
   background: var(--color-accent);
   transition: width 0.3s ease;
 }
 .nav-link-animated:hover::after {
   width: 100%;
 }
+
+/* Editorial image overlay */
+.hero-overlay {
+  background: linear-gradient(to bottom, rgba(45,41,38,0.1) 0%, rgba(45,41,38,0.55) 100%);
+}
+
+/* Star rating */
+.star-gold { color: var(--color-gold); }

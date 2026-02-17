@@ -1,0 +1,221 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import FadeIn from '../components/FadeIn';
+
+export const metadata: Metadata = {
+  title: 'Press & Media',
+  description: 'Christine Nelson in the press — featured publications, TV appearances, and speaking engagements.',
+  openGraph: {
+    title: 'Press & Media — Christine Nelson',
+    description: 'Christine Nelson in the press — publications, TV, and speaking.',
+    url: 'https://christine-nelson.vercel.app/press',
+  },
+};
+
+const publications = [
+  {
+    outlet: 'Charlotte Observer',
+    title: 'Top 10 Stylists Changing the Fashion Scene in Charlotte',
+    type: 'Feature Article',
+    year: '2024',
+  },
+  {
+    outlet: 'Charlotte Magazine',
+    title: 'Best of Charlotte: Personal Services',
+    type: 'Award Recognition',
+    year: '2024',
+  },
+  {
+    outlet: 'StyleBlueprint',
+    title: 'How to Refresh Your Wardrobe Without Starting From Scratch',
+    type: 'Expert Interview',
+    year: '2024',
+  },
+  {
+    outlet: 'SouthPark Magazine',
+    title: 'The Art of the Capsule Wardrobe: A Charlotte Stylist\'s Guide',
+    type: 'Feature Profile',
+    year: '2023',
+  },
+  {
+    outlet: 'Charlotte Agenda',
+    title: '15 Charlotte Women Entrepreneurs to Watch',
+    type: 'Feature List',
+    year: '2023',
+  },
+  {
+    outlet: 'Southern Living',
+    title: 'Southern Style: Personal Stylists Reinventing Wardrobes Across the South',
+    type: 'Regional Feature',
+    year: '2023',
+  },
+];
+
+const tvAppearances = [
+  {
+    show: 'Charlotte Today (WCNC)',
+    topic: 'Spring Wardrobe Essentials Every Woman Needs',
+    type: 'Recurring Style Segment',
+    year: '2024',
+  },
+  {
+    show: 'Good Morning Charlotte (WBTV)',
+    topic: 'Holiday Party Outfit Guide',
+    type: 'Guest Segment',
+    year: '2024',
+  },
+  {
+    show: 'Charlotte Today (WCNC)',
+    topic: 'Closet Detox: How to Edit Your Wardrobe Like a Pro',
+    type: 'Recurring Style Segment',
+    year: '2023',
+  },
+  {
+    show: 'QC Morning (FOX 46)',
+    topic: 'Budget-Friendly Style Tips for the New Year',
+    type: 'Guest Expert',
+    year: '2023',
+  },
+  {
+    show: 'Charlotte Today (WCNC)',
+    topic: 'Building a Travel Capsule Wardrobe',
+    type: 'Recurring Style Segment',
+    year: '2023',
+  },
+];
+
+const speaking = [
+  {
+    event: 'Charlotte Women\'s Conference',
+    topic: 'Dress for the Life You Want: The Psychology of Personal Style',
+    year: '2024',
+  },
+  {
+    event: 'Junior League of Charlotte — Annual Luncheon',
+    topic: 'Reinventing Your Wardrobe at Any Age',
+    year: '2024',
+  },
+  {
+    event: 'Lake Norman Chamber of Commerce — Women in Business Series',
+    topic: 'The Power of Personal Branding Through Style',
+    year: '2023',
+  },
+  {
+    event: 'Charlotte Moms Network — Fall Workshop',
+    topic: 'Mom Style: Looking Put-Together in 10 Minutes or Less',
+    year: '2023',
+  },
+  {
+    event: 'CPCC Continuing Education — Style Workshop Series',
+    topic: 'Color Analysis & Body Type Dressing',
+    year: '2022',
+  },
+];
+
+export default function Press() {
+  return (
+    <>
+      {/* Hero */}
+      <section className="relative h-[60vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+        <img
+          src="https://images.unsplash.com/photo-1504711434969-e33886168d5c?w=1600&h=700&fit=crop"
+          alt="Press and media"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 hero-overlay" />
+        <div className="relative z-10 text-center px-6">
+          <FadeIn>
+            <p className="text-white/80 tracking-[0.3em] uppercase text-xs font-medium mb-4">In the Spotlight</p>
+            <h1 className="font-serif text-5xl md:text-7xl font-semibold text-white">Press & Media</h1>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* Featured Publications */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-8">
+          <FadeIn>
+            <p className="text-accent tracking-[0.3em] uppercase text-xs font-medium text-center mb-4">Featured In</p>
+            <h2 className="font-serif text-3xl md:text-5xl font-semibold text-warm-900 text-center mb-16">Publications</h2>
+          </FadeIn>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {publications.map((pub, i) => (
+              <FadeIn key={pub.title} delay={i * 80}>
+                <div className="bg-white p-8 shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+                  <p className="text-accent text-xs font-medium tracking-[0.15em] uppercase mb-2">{pub.type} · {pub.year}</p>
+                  <h3 className="font-serif text-xl font-semibold text-warm-900 mb-3">{pub.outlet}</h3>
+                  <p className="text-warm-600 text-sm leading-relaxed flex-1">&ldquo;{pub.title}&rdquo;</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TV & Media */}
+      <section className="py-24 bg-warm-100/50">
+        <div className="max-w-7xl mx-auto px-8">
+          <FadeIn>
+            <p className="text-accent tracking-[0.3em] uppercase text-xs font-medium text-center mb-4">On Screen</p>
+            <h2 className="font-serif text-3xl md:text-5xl font-semibold text-warm-900 text-center mb-16">TV & Media Appearances</h2>
+          </FadeIn>
+          <div className="max-w-4xl mx-auto space-y-6">
+            {tvAppearances.map((appearance, i) => (
+              <FadeIn key={appearance.topic} delay={i * 80}>
+                <div className="bg-white p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div>
+                    <h3 className="font-serif text-xl font-semibold text-warm-900">{appearance.show}</h3>
+                    <p className="text-warm-600 text-sm mt-1">{appearance.topic}</p>
+                  </div>
+                  <div className="flex items-center gap-4 shrink-0">
+                    <span className="text-warm-400 text-xs tracking-wider uppercase">{appearance.type}</span>
+                    <span className="text-accent font-medium text-sm">{appearance.year}</span>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Speaking Engagements */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-8">
+          <FadeIn>
+            <p className="text-accent tracking-[0.3em] uppercase text-xs font-medium text-center mb-4">On Stage</p>
+            <h2 className="font-serif text-3xl md:text-5xl font-semibold text-warm-900 text-center mb-16">Speaking Engagements</h2>
+          </FadeIn>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {speaking.map((event, i) => (
+              <FadeIn key={event.topic} delay={i * 80}>
+                <div className="bg-white p-8 shadow-sm h-full">
+                  <p className="text-accent text-xs font-medium tracking-[0.15em] uppercase mb-2">{event.year}</p>
+                  <h3 className="font-serif text-lg font-semibold text-warm-900 mb-3">{event.event}</h3>
+                  <p className="text-warm-600 text-sm leading-relaxed">{event.topic}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Press Inquiry CTA */}
+      <section className="bg-warm-900 py-24">
+        <div className="max-w-4xl mx-auto px-8 text-center">
+          <FadeIn>
+            <h2 className="font-serif text-3xl md:text-5xl font-semibold text-white mb-6">Press Inquiries</h2>
+            <p className="text-warm-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+              For media appearances, interviews, or speaking engagements, please get in touch. I&apos;d love to collaborate.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-block px-10 py-4 bg-accent text-white text-sm font-medium tracking-[0.15em] uppercase hover:bg-accent-dark transition-colors btn-press"
+            >
+              Get in Touch
+            </Link>
+          </FadeIn>
+        </div>
+      </section>
+    </>
+  );
+}
