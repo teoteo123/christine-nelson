@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import FadeIn from '../components/FadeIn';
+import { getBlogPosts } from '../../lib/queries';
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -12,50 +13,16 @@ export const metadata: Metadata = {
   },
 };
 
-const posts = [
-  {
-    slug: 'morning-rituals',
-    title: 'The Morning Rituals That Changed Everything',
-    excerpt: 'I used to wake up reaching for my phone. Now my mornings look completely different — and it started with one tiny shift that took less than five minutes.',
-    date: 'January 12, 2026',
-    category: 'Intentional Living',
-    readTime: '5 min read',
-  },
-  {
-    slug: 'creative-block',
-    title: 'What I Do When the Creative Well Runs Dry',
-    excerpt: 'Creative blocks aren\'t the enemy — they\'re a signal. Here\'s how I\'ve learned to listen to them instead of fighting through, and why that makes all the difference.',
-    date: 'December 28, 2025',
-    category: 'Creativity',
-    readTime: '7 min read',
-  },
-  {
-    slug: 'slow-living',
-    title: 'Slow Living Isn\'t What You Think It Is',
-    excerpt: 'It\'s not about doing less or moving to the countryside. Slow living is a mindset shift — and it\'s more accessible (and more radical) than Instagram makes it look.',
-    date: 'December 5, 2025',
-    category: 'Lifestyle',
-    readTime: '6 min read',
-  },
-  {
-    slug: 'home-reset',
-    title: 'A Weekend Home Reset That Actually Sticks',
-    excerpt: 'Forget the 30-day declutter challenges. This simple weekend reset focuses on systems, not purging — and it\'s transformed how my home feels day to day.',
-    date: 'November 18, 2025',
-    category: 'Home & Space',
-    readTime: '4 min read',
-  },
-  {
-    slug: 'writing-practice',
-    title: 'Why Everyone Needs a Writing Practice (Even If You\'re Not a Writer)',
-    excerpt: 'Writing isn\'t just for published authors. It\'s one of the most powerful tools for self-awareness, clarity, and processing the beautiful mess of being human.',
-    date: 'October 30, 2025',
-    category: 'Writing',
-    readTime: '8 min read',
-  },
-];
+export const revalidate = 60;
 
-export default function Blog() {
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+export default async function Blog() {
+  const posts = await getBlogPosts();
+
   return (
     <>
       <section className="bg-warm-100 py-20">
@@ -70,13 +37,13 @@ export default function Blog() {
 
       <section className="max-w-4xl mx-auto px-6 py-20">
         <div className="space-y-0 divide-y divide-warm-200">
-          {posts.map((post) => (
-            <FadeIn key={post.slug}>
+          {posts.map((post: any) => (
+            <FadeIn key={post._id}>
             <article className="py-10 first:pt-0 last:pb-0 group">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-warm-400 mb-3">
                 <span className="text-accent font-medium">{post.category}</span>
                 <span>·</span>
-                <span>{post.date}</span>
+                <span>{post.publishedAt ? formatDate(post.publishedAt) : ''}</span>
                 <span>·</span>
                 <span>{post.readTime}</span>
               </div>

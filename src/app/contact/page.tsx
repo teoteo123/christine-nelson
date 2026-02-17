@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import FadeIn from '../components/FadeIn';
+import { getSiteSettings } from '../../lib/queries';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -11,7 +12,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Contact() {
+export const revalidate = 60;
+
+export default async function Contact() {
+  const settings = await getSiteSettings();
+
+  const email = settings?.contactEmail || 'hello@christinenelson.com';
+  const address = settings?.address || 'Charlotte, North Carolina';
+  const socialLinks = settings?.socialLinks || [
+    { platform: 'Instagram', url: '#' },
+    { platform: 'Pinterest', url: '#' },
+    { platform: 'LinkedIn', url: '#' },
+  ];
+
   return (
     <>
       {/* Hero */}
@@ -123,23 +136,23 @@ export default function Contact() {
               <div className="md:col-span-2 space-y-10">
                 <div>
                   <p className="text-xs font-medium tracking-wider uppercase text-warm-500 mb-3">Email</p>
-                  <p className="text-warm-800">hello@christinenelson.com</p>
+                  <p className="text-warm-800">{email}</p>
                 </div>
                 <div>
                   <p className="text-xs font-medium tracking-wider uppercase text-warm-500 mb-3">Location</p>
-                  <p className="text-warm-800">Charlotte, North Carolina</p>
+                  <p className="text-warm-800">{address}</p>
                   <p className="text-warm-500 text-sm mt-1">Serving the greater Charlotte metro area. Virtual consultations also available.</p>
                 </div>
                 <div>
                   <p className="text-xs font-medium tracking-wider uppercase text-warm-500 mb-3">Follow Along</p>
                   <div className="flex flex-wrap gap-3">
-                    {['Instagram', 'Pinterest', 'LinkedIn'].map((platform) => (
+                    {socialLinks.map((link: any) => (
                       <a
-                        key={platform}
-                        href="#"
+                        key={link.platform}
+                        href={link.url || '#'}
                         className="text-sm text-accent hover:text-accent-dark transition-colors"
                       >
-                        {platform}
+                        {link.platform}
                       </a>
                     ))}
                   </div>

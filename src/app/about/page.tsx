@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import FadeIn from '../components/FadeIn';
+import { getPage } from '../../lib/queries';
 
 export const metadata: Metadata = {
   title: 'About',
@@ -11,6 +12,8 @@ export const metadata: Metadata = {
     url: 'https://christine-nelson.vercel.app/about',
   },
 };
+
+export const revalidate = 60;
 
 const credentials = [
   'Certified Image Consultant — Association of Image Consultants International (AICI)',
@@ -35,7 +38,23 @@ const affiliations = [
   'Fashion Group International',
 ];
 
-export default function About() {
+function extractText(body: any[]): string[] {
+  if (!body) return [];
+  return body
+    .filter((b: any) => b._type === 'block')
+    .map((b: any) => b.children?.map((c: any) => c.text).join('') || '');
+}
+
+export default async function About() {
+  const aboutPage = await getPage('about');
+  const storySection = aboutPage?.sections?.find((s: any) => s.sectionTitle === 'My Story');
+  const storyParagraphs = storySection ? extractText(storySection.body) : [
+    'My journey into personal styling started, like many great stories, completely by accident. Growing up in a small North Carolina town, I was always the friend everyone called before a job interview, a first date, or a big event. "What should I wear?" was the question I heard more than any other — and I loved answering it.',
+    'After graduating from UNC Charlotte with a communications degree, I spent several years in fashion retail and visual merchandising. But I kept finding myself drawn to the one-on-one moments — the woman in the fitting room who finally found a dress that made her stand up straighter, the executive who realized her wardrobe could actually support her ambitions.',
+    "That's when I knew: my calling wasn't just about clothes. It was about confidence, identity, and helping women see themselves the way the world already does — as capable, beautiful, and worthy of showing up fully.",
+    "I pursued my certification through AICI, trained at the Fashion Institute of Technology, and launched my styling practice right here in Charlotte over a decade ago. Since then, I've had the honor of working with hundreds of women — from busy moms to C-suite executives — each one teaching me something new about what style really means.",
+  ];
+
   return (
     <>
       {/* Hero */}
@@ -74,18 +93,9 @@ export default function About() {
                   I believe that when you look your best, you feel empowered to be your best.
                 </h2>
                 <div className="space-y-4 text-warm-600 leading-relaxed">
-                  <p>
-                    My journey into personal styling started, like many great stories, completely by accident. Growing up in a small North Carolina town, I was always the friend everyone called before a job interview, a first date, or a big event. &ldquo;What should I wear?&rdquo; was the question I heard more than any other — and I loved answering it.
-                  </p>
-                  <p>
-                    After graduating from UNC Charlotte with a communications degree, I spent several years in fashion retail and visual merchandising. But I kept finding myself drawn to the one-on-one moments — the woman in the fitting room who finally found a dress that made her stand up straighter, the executive who realized her wardrobe could actually support her ambitions.
-                  </p>
-                  <p>
-                    That&apos;s when I knew: my calling wasn&apos;t just about clothes. It was about confidence, identity, and helping women see themselves the way the world already does — as capable, beautiful, and worthy of showing up fully.
-                  </p>
-                  <p>
-                    I pursued my certification through AICI, trained at the Fashion Institute of Technology, and launched my styling practice right here in Charlotte over a decade ago. Since then, I&apos;ve had the honor of working with hundreds of women — from busy moms to C-suite executives — each one teaching me something new about what style really means.
-                  </p>
+                  {storyParagraphs.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
                 </div>
               </div>
             </div>

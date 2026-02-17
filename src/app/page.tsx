@@ -1,58 +1,25 @@
 import Link from 'next/link';
 import FadeIn from './components/FadeIn';
+import { getServices, getTestimonials } from '../lib/queries';
 
-const services = [
-  {
-    title: 'Personal Styling',
-    desc: 'A curated wardrobe that reflects your lifestyle, body, and personal brand.',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop',
-  },
-  {
-    title: 'Closet Edit',
-    desc: 'Transform your closet into a streamlined collection of pieces you actually love.',
-    image: 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=400&fit=crop',
-  },
-  {
-    title: 'Special Event Styling',
-    desc: 'Look unforgettable for weddings, galas, date nights, and everything in between.',
-    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&h=400&fit=crop',
-  },
-];
+// Image URLs for home page service previews (no images stored in Sanity for now)
+const serviceImages: Record<string, string> = {
+  'Personal Styling': 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop',
+  'Closet Edit & Organization': 'https://images.unsplash.com/photo-1558171813-4c088753af8f?w=600&h=400&fit=crop',
+  'Special Event Styling': 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&h=400&fit=crop',
+};
 
-const testimonials = [
-  {
-    name: 'Jennifer W.',
-    location: 'Charlotte, NC',
-    stars: 5,
-    quote: 'Christine completely transformed my wardrobe — and my confidence. I get compliments every single day now. She has an incredible eye for what works with your body type and lifestyle.',
-  },
-  {
-    name: 'Amanda K.',
-    location: 'Charlotte, NC',
-    stars: 5,
-    quote: 'The closet edit was life-changing. I went from a closet stuffed with clothes I never wore to a curated collection where everything works together. Best investment I\'ve made in myself.',
-  },
-  {
-    name: 'Rachel D.',
-    location: 'Waxhaw, NC',
-    stars: 5,
-    quote: 'I hired Christine for my daughter\'s wedding and I have never felt more beautiful. She understood exactly what I wanted — elegant but not overdone. Truly a gifted stylist.',
-  },
-  {
-    name: 'Melissa T.',
-    location: 'Charlotte, NC',
-    stars: 5,
-    quote: 'As a busy executive, I needed a professional wardrobe that felt polished but still like me. Christine nailed it. She even taught me how to mix and match pieces I already owned.',
-  },
-  {
-    name: 'Laura B.',
-    location: 'Huntersville, NC',
-    stars: 5,
-    quote: 'I was dreading packing for a two-week European trip until Christine stepped in. She created a capsule travel wardrobe that was stylish, versatile, and fit in a carry-on!',
-  },
-];
+export const revalidate = 60;
 
-export default function Home() {
+export default async function Home() {
+  const [allServices, testimonials] = await Promise.all([
+    getServices(),
+    getTestimonials(),
+  ]);
+
+  // Show first 3 services for the preview
+  const services = allServices.slice(0, 3);
+
   return (
     <>
       {/* Hero — Full-width image with overlay */}
@@ -113,19 +80,19 @@ export default function Home() {
             <h2 className="font-serif text-3xl md:text-5xl font-semibold text-warm-900 text-center mb-16">Styling Services</h2>
           </FadeIn>
           <div className="grid md:grid-cols-3 gap-8">
-            {services.map((service, i) => (
-              <FadeIn key={service.title} delay={i * 120}>
+            {services.map((service: any, i: number) => (
+              <FadeIn key={service._id} delay={i * 120}>
                 <div className="group bg-white overflow-hidden shadow-sm hover:shadow-lg hover-lift transition-all h-full">
                   <div className="aspect-[4/3] overflow-hidden">
                     <img
-                      src={service.image}
+                      src={serviceImages[service.title] || 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=600&h=400&fit=crop'}
                       alt={service.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                   </div>
                   <div className="p-8">
                     <h3 className="font-serif text-2xl font-semibold text-warm-900 mb-3">{service.title}</h3>
-                    <p className="text-warm-600 text-sm leading-relaxed mb-6">{service.desc}</p>
+                    <p className="text-warm-600 text-sm leading-relaxed mb-6">{service.description}</p>
                     <Link
                       href="/services"
                       className="text-accent text-xs font-medium tracking-[0.15em] uppercase hover:text-accent-dark transition-colors"
@@ -176,17 +143,17 @@ export default function Home() {
             <h2 className="font-serif text-3xl md:text-5xl font-semibold text-warm-900 text-center mb-16">What My Clients Say</h2>
           </FadeIn>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((t, i) => (
-              <FadeIn key={t.name} delay={i * 100}>
+            {testimonials.map((t: any, i: number) => (
+              <FadeIn key={t._id} delay={i * 100}>
                 <div className="bg-white p-8 shadow-sm h-full flex flex-col">
                   <div className="star-gold text-lg mb-4">
-                    {'★'.repeat(t.stars)}{'☆'.repeat(5 - t.stars)}
+                    {'★'.repeat(t.rating)}{'☆'.repeat(5 - t.rating)}
                   </div>
                   <p className="text-warm-700 text-sm leading-relaxed italic flex-1 mb-6">
                     &ldquo;{t.quote}&rdquo;
                   </p>
                   <div>
-                    <p className="font-medium text-warm-900 text-sm">{t.name}</p>
+                    <p className="font-medium text-warm-900 text-sm">{t.clientName}</p>
                     <p className="text-warm-500 text-xs">{t.location}</p>
                   </div>
                 </div>
