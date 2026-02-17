@@ -1,6 +1,15 @@
 import type { Metadata } from 'next';
+import FadeIn from '../components/FadeIn';
 
-export const metadata: Metadata = { title: 'About — Christine Nelson' };
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'Learn about Christine Nelson — writer, creative consultant, and lifestyle strategist helping people and brands tell their stories with clarity and warmth.',
+  openGraph: {
+    title: 'About — Christine Nelson',
+    description: 'Learn about Christine Nelson — writer, creative consultant, and lifestyle strategist.',
+    url: 'https://christine-nelson.vercel.app/about',
+  },
+};
 
 export default function About() {
   return (
@@ -14,6 +23,7 @@ export default function About() {
       </section>
 
       <section className="max-w-4xl mx-auto px-6 py-20">
+        <FadeIn>
         <div className="grid md:grid-cols-5 gap-12 items-start">
           {/* Photo placeholder */}
           <div className="md:col-span-2">
@@ -39,12 +49,15 @@ export default function About() {
             </p>
           </div>
         </div>
+        </FadeIn>
       </section>
 
       {/* Values */}
       <section className="bg-white py-20">
         <div className="max-w-6xl mx-auto px-6">
+          <FadeIn>
           <h2 className="font-serif text-3xl font-bold text-warm-900 text-center mb-12">What I Believe In</h2>
+          </FadeIn>
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { title: 'Intentionality', desc: 'Every choice is a chance to align closer to what matters.' },

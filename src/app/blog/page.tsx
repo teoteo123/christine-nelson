@@ -1,7 +1,16 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import FadeIn from '../components/FadeIn';
 
-export const metadata: Metadata = { title: 'Blog — Christine Nelson' };
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'Essays and reflections on creativity, intentional living, and finding beauty in the everyday by Christine Nelson.',
+  openGraph: {
+    title: 'Blog — Christine Nelson',
+    description: 'Essays and reflections on creativity, intentional living, and finding beauty in the everyday.',
+    url: 'https://christine-nelson.vercel.app/blog',
+  },
+};
 
 const posts = [
   {
@@ -62,8 +71,9 @@ export default function Blog() {
       <section className="max-w-4xl mx-auto px-6 py-20">
         <div className="space-y-0 divide-y divide-warm-200">
           {posts.map((post) => (
-            <article key={post.slug} className="py-10 first:pt-0 last:pb-0 group">
-              <div className="flex items-center gap-3 text-sm text-warm-400 mb-3">
+            <FadeIn key={post.slug}>
+            <article className="py-10 first:pt-0 last:pb-0 group">
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-warm-400 mb-3">
                 <span className="text-accent font-medium">{post.category}</span>
                 <span>·</span>
                 <span>{post.date}</span>
@@ -78,6 +88,7 @@ export default function Blog() {
                 Read More →
               </Link>
             </article>
+            </FadeIn>
           ))}
         </div>
       </section>

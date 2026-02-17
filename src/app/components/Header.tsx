@@ -29,7 +29,7 @@ export default function Header() {
             <Link
               key={href}
               href={href}
-              className={`text-sm font-medium tracking-wide transition-colors hover:text-accent ${
+              className={`text-sm font-medium tracking-wide transition-colors hover:text-accent nav-link-animated ${
                 pathname === href ? 'text-accent' : 'text-warm-700'
               }`}
             >

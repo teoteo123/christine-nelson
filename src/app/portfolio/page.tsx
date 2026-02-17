@@ -1,6 +1,15 @@
 import type { Metadata } from 'next';
+import FadeIn from '../components/FadeIn';
 
-export const metadata: Metadata = { title: 'Portfolio — Christine Nelson' };
+export const metadata: Metadata = {
+  title: 'Portfolio',
+  description: 'Selected work by Christine Nelson — writing, brand strategy, creative direction, and lifestyle consulting projects.',
+  openGraph: {
+    title: 'Portfolio — Christine Nelson',
+    description: 'Selected work by Christine Nelson — writing, brand strategy, creative direction, and more.',
+    url: 'https://christine-nelson.vercel.app/portfolio',
+  },
+};
 
 const projects = [
   {
@@ -46,20 +55,22 @@ export default function Portfolio() {
     <>
       <section className="bg-warm-100 py-20">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <p className="text-accent font-medium tracking-widest uppercase text-sm mb-3">Portfolio</p>
-          <h1 className="font-serif text-4xl md:text-5xl font-bold text-warm-900">Selected Work</h1>
-          <p className="text-warm-500 mt-4 max-w-xl mx-auto">
-            A curated collection of projects spanning writing, brand strategy, creative direction, and more.
-          </p>
+          <FadeIn>
+            <p className="text-accent font-medium tracking-widest uppercase text-sm mb-3">Portfolio</p>
+            <h1 className="font-serif text-4xl md:text-5xl font-bold text-warm-900">Selected Work</h1>
+            <p className="text-warm-500 mt-4 max-w-xl mx-auto">
+              A curated collection of projects spanning writing, brand strategy, creative direction, and more.
+            </p>
+          </FadeIn>
         </div>
       </section>
 
       <section className="max-w-6xl mx-auto px-6 py-20">
         <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project) => (
+          {projects.map((project, i) => (
+            <FadeIn key={project.title} delay={(i % 2) * 150}>
             <div
-              key={project.title}
-              className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover-lift transition-shadow h-full"
             >
               {/* Image placeholder */}
               <div className={`aspect-[16/9] ${project.color} flex items-center justify-center`}>
@@ -73,6 +84,7 @@ export default function Portfolio() {
                 <p className="text-warm-600 text-sm leading-relaxed">{project.desc}</p>
               </div>
             </div>
+            </FadeIn>
           ))}
         </div>
       </section>

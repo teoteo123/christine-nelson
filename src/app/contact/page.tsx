@@ -1,6 +1,15 @@
 import type { Metadata } from 'next';
+import FadeIn from '../components/FadeIn';
 
-export const metadata: Metadata = { title: 'Contact — Christine Nelson' };
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: 'Get in touch with Christine Nelson for writing, consulting, creative direction, or collaboration inquiries.',
+  openGraph: {
+    title: 'Contact — Christine Nelson',
+    description: 'Get in touch with Christine Nelson for writing, consulting, or collaboration inquiries.',
+    url: 'https://christine-nelson.vercel.app/contact',
+  },
+};
 
 export default function Contact() {
   return (
@@ -16,6 +25,7 @@ export default function Contact() {
       </section>
 
       <section className="max-w-4xl mx-auto px-6 py-20">
+        <FadeIn>
         <div className="grid md:grid-cols-5 gap-12">
           {/* Form */}
           <div className="md:col-span-3">
@@ -60,7 +70,7 @@ export default function Contact() {
               </div>
               <button
                 type="submit"
-                className="px-8 py-3.5 bg-accent text-white font-medium rounded-full hover:bg-accent-dark transition-colors"
+                className="px-8 py-3.5 bg-accent text-white font-medium rounded-full hover:bg-accent-dark transition-colors btn-press"
               >
                 Send Message
               </button>
@@ -79,7 +89,7 @@ export default function Contact() {
             </div>
             <div>
               <h3 className="font-serif text-lg font-bold text-warm-900 mb-2">Follow Along</h3>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 {['Instagram', 'Twitter', 'Pinterest', 'LinkedIn'].map((platform) => (
                   <a
                     key={platform}
@@ -99,6 +109,7 @@ export default function Contact() {
             </div>
           </div>
         </div>
+        </FadeIn>
       </section>
     </>
   );
